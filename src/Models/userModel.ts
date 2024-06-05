@@ -14,6 +14,9 @@ const userSchema = new mongosse.Schema({
        required:true,
        unique:true
     },
+    passwordResetCode:String,
+    passwordResstExpired :Date,
+    passwordResetVerfied:Boolean,
     password : {
         type : String,
         required : true,
