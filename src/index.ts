@@ -3,15 +3,32 @@ import useRoute  from "./Routes/userRoute"
 import connectDb from "./config/configDb"
 import dotenv from "dotenv"
 import ApiError from './helpers/ApiError';
+import cron from "node-cron"
+import userAbonnerModel from './Models/abonneModel';
+import {sendEmail} from './helpers/SMTP/nodeMailler'
+import userModel from 'Models/userModel';
 
 
+dotenv.config()
 const app = express()
-dotenv.config({path:".env"})
+
+
 connectDb()
 
 app.use(express.json())
-
 app.use("/user",useRoute)
+
+
+cron.schedule('*/1 * * * *',async()=>{
+const userAbonner=  await userAbonnerModel.find()
+ const userEmail:any= userAbonner.map((item:any)=> item.email).toString()
+ sendEmail({
+   recipients :userEmail, 
+   subject :"newLetter",
+   message :"newLetter"
+ })
+  
+})
 
 app.all("*" ,(req,res,next)=>{
   next(new ApiError(`Can't find ${req.originalUrl} on this server`,404))

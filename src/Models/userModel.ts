@@ -23,7 +23,7 @@ const userSchema = new mongosse.Schema({
         minLenght : [6 , "password is too short"],
         
      },
-    isAdmin :{
+     isAdmin :{
         type:Boolean,
         default : false
     }
