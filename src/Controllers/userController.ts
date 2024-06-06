@@ -46,23 +46,26 @@ export const forgotPassword = asyncHandler(async(req:any,res:any,next:any)=>{
        user.passwordResstExpired = new Date(Date.now() + 10 *60*1000) 
        user.passwordResetVerfied = false
        await user.save()
-       const messageT:any = `Hi ${user.firstName},\n We received a request to reset the password on your E-shop Account. \n ${resetCode} \n Enter this code to complete the reset. \n Thanks for helping us keep your account secure.\n The E-shop Team`;
+       const messageT:any = `Hi ${user.firstName},\n We received a request to reset the password on your Lyrics-Finder  Account. \n ${resetCode} \n Enter this code to complete the reset. \n Thanks for helping us keep your account secure.\n The Lyrics-Finder  Team`;
        
     try {
        await sendEmail({
-        recipients:"vocoshope@gmail.com", 
+        recipients:user.email, 
         subject:'Your password reset code (valid for 10 min)', 
-        message: typeof messageT
+        message:  messageT
     })
+    res.status(200).json({
+        message : "Password reset code sent to your email",
+        
+        })
     }catch(err){
       user.passwordResetCode = undefined
       user.passwordResstExpired = undefined
       user.passwordResetVerfied = undefined
       user.save()
+      return next(new ApiError(err.message,400))
         }
-        res.status(200).json({
-            message : "Password reset code sent to your email"
-            })
+       
 })
 
 export const verifyPasswordResetCode = asyncHandler(async(req,res,next)=>{
@@ -89,12 +92,14 @@ export const resetPassword = asyncHandler(async(req,res,next)=>{
         if(!user.passwordResetVerfied){
           return next(new ApiError("Password reset code not verified",404))
         }
-        user.password = req.body.newPassword
+        user.password = bcrypt.hashSync(req.body.newPassword,10)
         user.passwordResetCode = undefined
         user.passwordResstExpired = undefined
         user.passwordResetVerfied = undefined
         await user.save()
         res.status(200).json({
-            message : "Password reset successfully"
+            message : "Password reset successfully",
+            
             })
 })
+

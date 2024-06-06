@@ -1,11 +1,15 @@
 import nodemailer from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 
+
+
+
 // Define the environment variables with their types
-const smtpHost: string = process.env.smtp_host!;
-const smtpPort: number = parseInt(process.env.smtp_port!, 10);
-const smtpUser: string = process.env.smtp_user!;
-const smtpPass: string = process.env.smtp_pass!;
+const smtpHost: string = "smtp.zoho.com";
+const smtpPort: number = 465;
+const smtpUser: string = "aprenant2@talents4starups.com";
+const smtpPass: string = "jBmm!mx8";
+console.log(smtpHost)
 
 // Create a transporter object with the correct types
 const transporter = nodemailer.createTransport({

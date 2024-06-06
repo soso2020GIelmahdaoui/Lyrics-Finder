@@ -41,8 +41,8 @@ export const protect = asyncHandler(async(req:any,res:Express.Response,next:Expr
   next()
 })
 
-export const allowedTo = (admin:boolean) =>asyncHandler(async(req:any,res:any,next:any)=>{
-    if(admin != req.user.isAdmin){
+export const allowedTo = asyncHandler(async(req:any,res:any,next:any)=>{
+    if(!req.user.isAdmin){
         return res.status(403).json({message:"You are not allowed to access this route"})
     }
      next()  
