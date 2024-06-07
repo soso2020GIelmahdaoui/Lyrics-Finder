@@ -34,6 +34,15 @@ export const loginController = asyncHandler(async(req:Express.Request,res:Expres
     })
 })
 
+export const updateRoleUser = asyncHandler(async(req,res)=>{
+    const user = await userModel.findByIdAndUpdate(req.params.id , {
+        isAdmin : req.body.isAdmin
+    } , {new : true})
+    res.status(200).json({
+        data : user
+        })
+})
+
 export const forgotPassword = asyncHandler(async(req:any,res:any,next:any)=>{
     const user = await userModel.findOne({email:req.body.email})
     if(!user){
