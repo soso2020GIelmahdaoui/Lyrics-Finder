@@ -1,11 +1,5 @@
 import nodemailer from 'nodemailer';
 import * as SMTPTransport from "nodemailer/lib/smtp-transport";
-
-
-
-
-
-
 const sendEmailNodemailer = () =>{
     const smtpOptions ={
         host: process.env.smtp_host,
