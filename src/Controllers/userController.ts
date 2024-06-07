@@ -4,7 +4,7 @@ import userModel from '../Models/userModel'
 import token from '../helpers/token'
 import Express  from 'express'
 import crypto from "crypto"
-import { sendEmail } from '../helpers/SMTP/nodeMailler'
+import { sendEmail } from '../helpers/nodeMailler'
 import ApiError from '../helpers/ApiError'
 
 
@@ -32,6 +32,15 @@ export const loginController = asyncHandler(async(req:Express.Request,res:Expres
         user,
         token : tokenL
     })
+})
+
+export const updateRoleUser = asyncHandler(async(req:Express.Request,res:Express.Response)=>{
+    const user = await userModel.findByIdAndUpdate(req.params.id , {
+        isAdmin : req.body.isAdmin
+    } , {new : true})
+    res.status(200).json({
+        data : user
+        })
 })
 
 export const forgotPassword = asyncHandler(async(req:any,res:any,next:any)=>{

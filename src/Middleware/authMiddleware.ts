@@ -3,8 +3,24 @@ import  Express  from 'express'
 import jwt from 'jsonwebtoken'
 import userModel from '../Models/userModel'
 
+declare global{
+  interface userData{
+     firstName : string,
+     lastName :string,
+     email:string,
+     isAdmin:boolean
+     
+  }
+  namespace Express{
+    interface Request{
+      user: userData
+    }
+  }
+}
 
-export const protect = asyncHandler(async(req:any,res:Express.Response,next:Express.NextFunction)=>{
+
+
+export const protect = asyncHandler(async(req:Express.Request,res:Express.Response,next:Express.NextFunction)=>{
   let token
   if(req.headers.authorization && req.headers.authorization.startsWith("Bear")){
     token = req.headers.authorization.split(" ")[1]
@@ -31,18 +47,25 @@ export const protect = asyncHandler(async(req:any,res:Express.Response,next:Expr
     decodedVerif = decoded
   })
  
-  const currentUser = await userModel.findById(decodedVerif.userId)
+  let currentUser = await userModel.findById(decodedVerif.userId)
   if(!currentUser){
      res.status(401).json({
         message :"User not found"
     });
   }
-  req.user = currentUser
+ const currentUser2 = {
+    lastName : currentUser.lastName,
+    firstName : currentUser.firstName,
+    email : currentUser.email,
+    isAdmin :currentUser.isAdmin,
+   }
+
+  req.user = currentUser2
   next()
 })
 
-export const allowedTo = asyncHandler(async(req:any,res:any,next:any)=>{
-    if(!req.user.isAdmin){
+export const allowedTo=(admin:boolean)=> asyncHandler(async(req:any,res:any,next:any)=>{
+    if(admin != req.user.isAdmin){
         return res.status(403).json({message:"You are not allowed to access this route"})
     }
      next()  

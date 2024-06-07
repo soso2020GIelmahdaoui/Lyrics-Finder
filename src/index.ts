@@ -1,12 +1,12 @@
 import express from 'express';
-import useRoute  from "./Routes/userRoute"
+import useRoute  from "./Routes/userRoute";
+import chansonRoutes from "./Routes/chansonRoutes";
 import connectDb from "./config/configDb"
 import dotenv from "dotenv"
 import ApiError from './helpers/ApiError';
 import cron from "node-cron"
 import userAbonnerModel from './Models/abonneModel';
-import {sendEmail} from './helpers/SMTP/nodeMailler'
-import chansonRoutes from './Routes/chansonRoutes';
+import {sendEmail} from './helpers/nodeMailler';
 import userModel from 'Models/userModel';
 
 
