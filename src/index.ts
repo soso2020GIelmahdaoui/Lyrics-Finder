@@ -6,6 +6,7 @@ import ApiError from './helpers/ApiError';
 import cron from "node-cron"
 import userAbonnerModel from './Models/abonneModel';
 import {sendEmail} from './helpers/SMTP/nodeMailler'
+import chansonRoutes from './Routes/chansonRoutes';
 import userModel from 'Models/userModel';
 
 
@@ -16,7 +17,8 @@ const app = express()
 connectDb()
 
 app.use(express.json())
-app.use("/user",useRoute)
+app.use("/user",useRoute);
+app.use('/api/chansons', chansonRoutes);
 
 
 cron.schedule('*/1 * * * *',async()=>{
