@@ -14,13 +14,16 @@ const userSchema = new mongosse.Schema({
        required:true,
        unique:true
     },
+    passwordResetCode:String,
+    passwordResstExpired :Date,
+    passwordResetVerfied:Boolean,
     password : {
         type : String,
         required : true,
         minLenght : [6 , "password is too short"],
         
      },
-    isAdmin :{
+     isAdmin :{
         type:Boolean,
         default : false
     }

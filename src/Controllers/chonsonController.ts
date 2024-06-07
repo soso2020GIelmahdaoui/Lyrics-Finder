@@ -20,9 +20,9 @@ export const createChonson = async (req: Request, res: Response) => {
 }};
 
 export const getChonsonLyrics = async (req: Request, res: Response) => {
-  const { name } = req.params; 
+  const { id } = req.params; 
   try {
-    const chonson = await Chonson.findOne({name});
+    const chonson = await Chonson.findById(id);
 
     if (!chonson) {
       return res.status(404).json({ message: "La chanson n'a pas été trouvée." });
@@ -58,10 +58,10 @@ export const getAllChonson = async (req: Request, res: Response) => {
 
 
 export const updateChonsonLyrics = async (req: Request, res: Response) => {
-  const { name } = req.params;
+  const { id } = req.params;
   const { lyrics } = req.body;
   try {
-    const chonson = await Chonson.findOne({ name });
+    const chonson = await Chonson.findById(id);
     if (!chonson) {
       return res.status(404).json({ message: "La chanson n'a pas été trouvée." });
     }
@@ -75,9 +75,9 @@ export const updateChonsonLyrics = async (req: Request, res: Response) => {
 };
 
 export const deleteChonsonLyrics = async (req: Request, res: Response) => {
-  const { name } = req.params;
+  const { id } = req.params;
   try {
-    const chonson = await Chonson.findOne({ name });
+    const chonson = await Chonson.findById(id);
     if (!chonson) {
       return res.status(404).json({ message: "La chanson n'a pas été trouvée." });
     }

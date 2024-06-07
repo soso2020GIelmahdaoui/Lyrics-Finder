@@ -6,7 +6,7 @@ import cloudinary from '../utils/cloudinary';
 export const createArtist = async (req: Request, res: Response) => {
   const { firstname, lastname, genre, born_date, city_of_birth, died_date } = req.body; 
   const file = req.file;
-
+  
   try {
     if (!file) {
       return res.status(400).json({ message: 'No image file provided' });
@@ -37,7 +37,7 @@ export const createArtist = async (req: Request, res: Response) => {
 export const getArtist = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const artist = await Artist.findById(id ).populate('chansons');
+    const artist = await Artist.findById(id );
     if (!artist) {
       return res.status(404).json({ message: 'Artist not found' });
     }
