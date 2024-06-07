@@ -5,7 +5,7 @@ import dotenv from "dotenv"
 import ApiError from './helpers/ApiError';
 import cron from "node-cron"
 import userAbonnerModel from './Models/abonneModel';
-import {sendEmail} from './helpers/SMTP/nodeMailler'
+import {sendEmail} from './helpers/nodeMailler'
 import userModel from 'Models/userModel';
 
 
